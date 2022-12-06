@@ -42,24 +42,26 @@ namespace CarRent
         Connect c= new Connect();
         public List<Car> getList()
         {
+            List<Car> carList2= new List<Car>();
             string qry= "SELECT * FROM cardata;";
             MySqlCommand cmd = new MySqlCommand(qry);
             cmd.Connection = c.conn;
             cmd.CommandText = qry;
-            Car car = new Car();
+
+            Car ca = new Car();
             MySqlDataReader dr = cmd.ExecuteReader();
-            Car ca=new Car();
-            if (dr.HasRows)
+
+            while (dr.Read())
             {
-                dr.Read();
-                ca.CarMake=ca.CarMake.ToString();
-                ca.CarModel = ca.CarModel.ToString();
-                ca.CarYear = int.Parse(ca.CarYear.ToString());
-                ca.Color=ca.Color.ToString();
-                ca.CarVin=ca.CarVin.ToString();
-                carList.Add(ca);
+                ca.Id = dr.GetInt32("id");
+                ca.CarMake=dr.GetString("CarMake");
+                ca.CarModel = dr.GetString("CarModel");
+                ca.CarYear = dr.GetInt32("CarYear");
+                ca.Color=dr.GetString("Color");
+                ca.CarVin=dr.GetString("CarVin");
+                carList2.Add(ca);
             }
-             return carList;
+             return carList2;
             
         }
 
